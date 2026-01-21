@@ -1,5 +1,5 @@
-import { stringify } from "node:querystring";
-import { addUserProfile, getUser } from "../service/userService.js";
+import { emitWarning } from "node:process";
+import { addUserProfile, getUser, removeUser, updateUser } from "../service/userService.js";
 
 export const getUserProfile = async (req: any, res: any) => {
   try {
@@ -11,7 +11,7 @@ export const getUserProfile = async (req: any, res: any) => {
     console.log('Something went wrong', e);
     res.json(e.message)
   }
-}
+};
 
 export const registerUser = async (req: any, res: any) => {
   try {
@@ -23,6 +23,29 @@ export const registerUser = async (req: any, res: any) => {
     res.json(user);
   } catch (e: any) {
     console.log("User profile can't be created", e.message);
+    res.json(e.message);
+  }
+};
+
+export const editUserProfile = async (req: any, res: any) => {
+  try {
+    const { name, email } = req.body;
+    const user = await updateUser({name, email});
+    res.json(user);
+  } catch (e: any) {
+    console.log("Unable to update user ", e);
+    res.json(e.message);
+  }
+};
+
+export const deleteUserProfile = async (req: any, res: any) => {
+  try {
+    const { email } = req.body;
+    const user = removeUser(email);
+
+    res.json('user deleted successfully',user);
+  } catch (e: any) {
+    console.log("Unable to delete user", e);
     res.json(e.message);
   }
 }

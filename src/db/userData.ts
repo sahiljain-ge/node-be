@@ -23,3 +23,23 @@ export const addUser = async (userData: User) => {
 
   return user;
 };
+
+export const editUserDetails = async ( userData: any) => {
+  const user = await prisma.user.update({
+    data: userData,
+    where: {
+      email: userData.email
+    }
+  });
+
+  return user;
+};
+
+export const deleteUser = async (email: string) => {
+  const user = prisma.user.delete({
+    where: {
+      email: email
+    }
+  });
+  return user;
+};
