@@ -1,5 +1,5 @@
 import prisma from "../prisma.js";
-import { emitWarning } from "node:process";
+import bcrypt from 'bcrypt';
 export const getUserData = async (email) => {
     const user = await prisma.user.findUnique({
         where: {
@@ -9,11 +9,12 @@ export const getUserData = async (email) => {
     return user;
 };
 export const addUser = async (userData) => {
+    const hashedPasword = await bcrypt.hash(userData.password, 8);
     const user = await prisma.user.create({
         data: {
-            name: userData?.name,
+            name: userData.name,
             email: userData.email,
-            password: userData.password
+            password: hashedPasword
         }
     });
     return user;

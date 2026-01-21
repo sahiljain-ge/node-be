@@ -1,5 +1,6 @@
 import type { User } from "@prisma/client";
 import { addUser, deleteUser, editUserDetails, getUserData } from "../db/userData.js"
+import bcrypt from 'bcrypt'
 
 export const getUser = async (email: string) => {
   const user: User | null = await getUserData(email);
@@ -26,9 +27,10 @@ export const updateUser = async (user: any) => {
 export const removeUser = async (email: string, password: string) => {
   const existingUser = await getUserData(email);
   if (!existingUser) throw new Error(`can't delete user as user with this email not exist.`);
-    else if (password != existingUser.password) {
-      throw new Error(`You'are not authorized to delete this profile`);
-    }
+  const isMatch = bcrypt.compareSync(password, existingUser.password)
+  if (!isMatch) {
+    throw new Error(`Password is not correct`);
+  }
   const user = await deleteUser(email);
   return user;
 }
