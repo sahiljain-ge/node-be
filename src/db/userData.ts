@@ -16,8 +16,9 @@ export const getUserData = async (email: string) : Promise<User | null> => {
 export const addUser = async (userData: User) => {
   const user = await prisma.user.create({
     data: {
-      name: userData.name,
-      email: userData.email
+      name: userData?.name,
+      email: userData.email,
+      password: userData.password
     }
   });
 
