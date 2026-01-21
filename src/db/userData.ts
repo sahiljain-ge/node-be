@@ -1,7 +1,6 @@
 import type { User } from "@prisma/client";
 import prisma from "../prisma.js"
-import { emitWarning } from "node:process";
-
+import bcrypt from 'bcrypt'
 
 export const getUserData = async (email: string) : Promise<User | null> => {
   const user = await prisma.user.findUnique({
@@ -14,11 +13,12 @@ export const getUserData = async (email: string) : Promise<User | null> => {
 };
 
 export const addUser = async (userData: User) => {
+  const hashedPasword = await bcrypt.hash(userData.password, 8);
   const user = await prisma.user.create({
     data: {
-      name: userData?.name,
+      name: userData.name,
       email: userData.email,
-      password: userData.password
+      password: hashedPasword
     }
   });
 

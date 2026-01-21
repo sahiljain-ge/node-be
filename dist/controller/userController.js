@@ -1,4 +1,3 @@
-import { emitWarning } from "node:process";
 import { addUserProfile, getUser, removeUser, updateUser } from "../service/userService.js";
 export const getUserProfile = async (req, res) => {
     try {
