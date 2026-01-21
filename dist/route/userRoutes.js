@@ -1,0 +1,6 @@
+import express from 'express';
+import { getUserProfile } from '../controller/userController.js';
+const router = express.Router();
+router.get('/', getUserProfile);
+export default router;
+//# sourceMappingURL=userRoutes.js.map
