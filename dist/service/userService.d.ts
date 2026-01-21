@@ -5,4 +5,11 @@ export declare const getUser: (email: string) => Promise<{
     role: import("@prisma/client").$Enums.ROLE;
     createdAt: Date;
 }>;
+export declare const addUserProfile: (user: any) => Promise<{
+    name: string | null;
+    id: number;
+    email: string;
+    role: import("@prisma/client").$Enums.ROLE;
+    createdAt: Date;
+}>;
 //# sourceMappingURL=userService.d.ts.map
