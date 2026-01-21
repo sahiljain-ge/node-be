@@ -17,15 +17,18 @@ export const addUserProfile = async (user: any) => {
 }
 
 export const updateUser = async (user: any) => {
-  const existingUser = await getUserData(user.email);
+  const existingUser = await getUserData(user?.email);
   if (!existingUser) throw new Error(`can't update user as user with this email not exist.`);
   const updatedUser = await editUserDetails(user);
   return updatedUser;
 };
 
-export const removeUser = async (email: string) => {
+export const removeUser = async (email: string, password: string) => {
   const existingUser = await getUserData(email);
-  if (!existingUser) throw new Error(`can't delete user as user with this email not exist.`)
+  if (!existingUser) throw new Error(`can't delete user as user with this email not exist.`);
+    else if (password != existingUser.password) {
+      throw new Error(`You'are not authorized to delete this profile`);
+    }
   const user = await deleteUser(email);
   return user;
 }

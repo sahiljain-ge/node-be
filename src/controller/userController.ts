@@ -15,10 +15,11 @@ export const getUserProfile = async (req: any, res: any) => {
 
 export const registerUser = async (req: any, res: any) => {
   try {
-    const { name, email } = req.body;
+    const { name, email, password } = req.body;
     const user = await addUserProfile({
       name,
-      email
+      email,
+      password
     });
     res.json(user);
   } catch (e: any) {
@@ -29,8 +30,8 @@ export const registerUser = async (req: any, res: any) => {
 
 export const editUserProfile = async (req: any, res: any) => {
   try {
-    const { name, email } = req.body;
-    const user = await updateUser({name, email});
+    const { name, email, password } = req.body;
+    const user = await updateUser({name, email, password});
     res.json(user);
   } catch (e: any) {
     console.log("Unable to update user ", e);
@@ -40,12 +41,11 @@ export const editUserProfile = async (req: any, res: any) => {
 
 export const deleteUserProfile = async (req: any, res: any) => {
   try {
-    const { email } = req.body;
-    const user = removeUser(email);
-
+    const { email, password } = req.body;
+    const user = await removeUser(email, password);
     res.json('user deleted successfully',user);
   } catch (e: any) {
     console.log("Unable to delete user", e);
     res.json(e.message);
   }
-}
+};
